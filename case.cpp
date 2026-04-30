@@ -2,13 +2,21 @@
 #include <unordered_map>
 #include <utility>
 #include <fstream>
+#if __has_include(<nlohmann/json.hpp>)
 #include <nlohmann/json.hpp>
+#define PROBEMACHINE_HAS_JSON 1
+#else
+#define PROBEMACHINE_HAS_JSON 0
+#endif
 #include <vector>
 #include <tuple>
 #include <random>
 #include <algorithm>
 #include <chrono>
 #include <sstream>
+#include <cstdlib>
+#include <map>
+#include <iomanip>
 
 using namespace std;
 
@@ -61,6 +69,7 @@ std::vector<std::vector<tuple<string, string, string>>> pft;
 // 投票方式
 string way[] = {"m", "i", "p"};
 
+#if PROBEMACHINE_HAS_JSON
 // 添加 nlohmann/json 的反序列化函数
 void from_json(const nlohmann::json &j, Kripke &kripke)
 {
@@ -73,6 +82,7 @@ void from_json(const nlohmann::json &j, Kripke &kripke)
     j.at("propLabels").get_to(kripke.propLabels);
     j.at("initialStates").get_to(kripke.initialStates);
 }
+#endif
 
 // 函数声明
 void combineHelper(const std::vector<std::string> &elements, int start, int n, std::vector<std::string> &current, std::vector<std::vector<std::string>> &result);
@@ -585,13 +595,19 @@ bool EFModelChecking(MoM &mom, Kripke &kripke, int canNum, string f, int agNum)
     return kripke.propLabels[get<2>(pf[0])][f] == true;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
 
     int canNum, voteNum, agNum;
     canNum = 2;
     voteNum = 1;
     agNum = 1;
+    if (argc >= 4)
+    {
+        canNum = max(2, atoi(argv[1]));
+        voteNum = max(1, atoi(argv[2]));
+        agNum = max(1, atoi(argv[3]));
+    }
 
     // case
     auto start = std::chrono::high_resolution_clock::now();

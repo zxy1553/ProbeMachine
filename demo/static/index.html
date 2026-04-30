@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ProbeMachine Demo Console</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Formal model checking prototype</p>
+          <h1>ProbeMachine</h1>
+          <p class="lede">
+            A browser launcher for the C++ probe-analysis core: configure a
+            Kripke sample, generate graph artifacts, and run the model-checking
+            case program from one reproducible panel.
+          </p>
+        </div>
+        <div class="status-card">
+          <span class="status-dot"></span>
+          <strong>Thesis demo wrapper</strong>
+          <small>Core algorithms remain in C++</small>
+        </div>
+      </section>
+
+      <section class="pipeline" aria-label="tool pipeline">
+        <div><span>1</span> Parameters</div>
+        <div><span>2</span> Kripke JSON</div>
+        <div><span>3</span> Graph SVG</div>
+        <div><span>4</span> Probe result</div>
+      </section>
+
+      <section class="grid">
+        <form id="run-form" class="panel controls">
+          <div class="panel-title">
+            <p>Input</p>
+            <h2>Run configuration</h2>
+          </div>
+          <label>
+            States
+            <input name="state_count" type="number" min="3" max="12" value="5" />
+          </label>
+          <label>
+            Candidates
+            <input name="candidate_count" type="number" min="2" max="6" value="2" />
+          </label>
+          <label>
+            Voters
+            <input name="voter_count" type="number" min="1" max="6" value="1" />
+          </label>
+          <label>
+            Agents
+            <input name="agent_count" type="number" min="1" max="6" value="1" />
+          </label>
+          <button type="submit">Run ProbeMachine</button>
+          <p class="hint">
+            The C++ case executable receives candidates, voters, and agents as
+            command-line arguments. The graph preview uses the same visible
+            inputs for a stable presentation artifact.
+          </p>
+        </form>
+
+        <section class="panel graph-panel">
+          <div class="panel-title">
+            <p>Visualization</p>
+            <h2>Generated Kripke structure</h2>
+          </div>
+          <div id="graph" class="graph-empty">Click Run ProbeMachine.</div>
+        </section>
+      </section>
+
+      <section class="metrics">
+        <article class="metric">
+          <span>Result</span>
+          <strong id="result">-</strong>
+        </article>
+        <article class="metric">
+          <span>Path</span>
+          <strong id="path">-</strong>
+        </article>
+        <article class="metric">
+          <span>Runtime</span>
+          <strong id="runtime">-</strong>
+        </article>
+        <article class="metric">
+          <span>Data entries</span>
+          <strong id="entries">-</strong>
+        </article>
+      </section>
+
+      <section class="grid lower">
+        <section class="panel">
+          <div class="panel-title">
+            <p>Structured artifact</p>
+            <h2>Kripke model</h2>
+          </div>
+          <div id="kripke-view" class="structured-view empty-view">Waiting for model...</div>
+        </section>
+        <section class="panel">
+          <div class="panel-title">
+            <p>Structured C++ output</p>
+            <h2>Probe execution</h2>
+          </div>
+          <div id="log-view" class="structured-view empty-view">Waiting for run...</div>
+        </section>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

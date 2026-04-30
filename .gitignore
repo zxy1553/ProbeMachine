@@ -1,0 +1,5 @@
+.cursor/
+demo/bin/
+demo/outputs/
+__pycache__/
+*.pyc
